@@ -43,10 +43,13 @@ async def chat(request: ChatRequest):
         raise HTTPException(status_code=400, detail="Message is required")
 
     content = f"""
-    Create a vivid and engaging description of a hypothetical image based on the following concept: {TypeofImage}.
-    Depict a lively and charismatic character with expressive features, such as sparkling eyes and a warm, inviting smile. Their outfit should reflect a trendy, fashion-forward, or playful personality—consider bold color combinations, stylish layering, or unique accessories. Pay close attention to intricate details in their hairstyle, accessories, and overall aesthetic, ensuring a dynamic and visually striking presence.
-    Set the scene in a vibrant and immersive environment—whether it's a neon-lit cityscape, a cozy aesthetic café, or a bustling festival—enhancing the energy and personality of the character. Focus on textures, lighting, and ambiance to create depth and visual appeal.
-    Your response should be concise yet highly descriptive, capturing all essential visual elements in a single engaging paragraph. Start your response with 'Description: The image shows' and craft a medium-length paragraph that fully encapsulates the scene in a stylish and immersive way.
+    Your task is to create a description of a hypothetical image which is based on the following idea/keywords/instruction: {TypeofImage}\n\n
+    Come up with a fully-formed idea based on that instruction, and write a description/caption which fully captures all visual aspects the image. 
+    Depict a lively and cheerful character with expressive features, such as sparkling eyes and a warm smile. 
+    Design a trendy or charming outfit that reflects their playful personality. 
+    Include intricate details in their hairstyle, accessories, and surroundings to create a vibrant, engaging scene. 
+    Your response should be crisp/lean/efficient, descriptive, and engaging.\n\n
+    Start your response with \"Description: The image shows\" and then give a one-paragraph description which captures all visual details of the idea in a medium-length paragraph."
     """
     
     response = client.complete(
