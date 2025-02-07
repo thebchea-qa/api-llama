@@ -1,1 +1,6 @@
 fastapi[all]
+fastapi 
+pydantic 
+azure-ai-inference 
+azure-core 
+uvicorn
