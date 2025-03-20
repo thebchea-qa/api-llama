@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Prompt Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            text-align: center;
+            border-radius: 10px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result-box {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            min-height: 50px;
+        }
+        .loading {
+            font-size: 18px;
+            font-weight: bold;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Generate Prompt Image</h2>
+    <h3>Choose AI</h3>
+
+    <select id="apiSelector">
+        <option value="https://api-llama-ujk6.onrender.com/api/Llama">Llama-3.3-70B-Instruct</option>
+        <!-- <option value="http://107.172.3.119:5002/api/Groq">Groq AI</option> -->
+    </select>
+    <input type="text" id="messageInput" placeholder="Enter your Image Type...">
+    <button onclick="sendMessage()">Generate</button>
+
+    <div class="result-box" id="resultBox">
+        <!-- Response will be shown here -->
+    </div>
+</div>
+
+<script>
+    async function sendMessage() {
+        const message = document.getElementById("messageInput").value;
+        const apiUrl = document.getElementById("apiSelector").value;
+        const resultBox = document.getElementById("resultBox");
+
+        if (!message) {
+            resultBox.textContent = "Please enter a message.";
+            return;
+        }
+
+        // Show loading state
+        resultBox.innerHTML = '<div class="loading">Please wait...<br>សូមរងចាំ...<br>Loading...</div>';
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                rejectUnauthorized: false,
+                body: JSON.stringify({ message: message }),
+                mode: "cors"
+            });
+
+            const data = await response.json();
+            if (data.response) {
+                resultBox.textContent = data.response;
+            } else {
+                resultBox.textContent = "No response from API.";
+            }
+        } catch (error) {
+            resultBox.textContent = "Error: " + error.message;
+        }
+    }
+</script>
+
+</body>
+</html>
